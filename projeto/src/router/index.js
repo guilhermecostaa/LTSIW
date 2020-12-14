@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from '../views/Login.vue'
-import Alunos from '../views/Alunos.vue'
+import Students from '../views/Students.vue'
+import SearchStudents from '../views/SearchStudents.vue'
 import Backoffice from '../views/Backoffice/Backoffice.vue'
 import BackofficeUsers from '../views/Backoffice/BackofficeUsers.vue'
 import BackofficeAtividades from '../views/Backoffice/BackofficeAtividades.vue'
@@ -20,8 +21,13 @@ const routes = [
   },
   {
     path: '/alunos',
-    name: 'alunos',
-    component: Alunos,
+    name: 'searchStudents',
+    component: SearchStudents,
+  },
+  {
+    path: '/alunos/:id',
+    name: 'students',
+    component: Students,
   },
   {
     path: '/rankings',
@@ -34,22 +40,22 @@ const routes = [
     component: Backoffice,
     children: [
       {
-        path: 'users',
+        path: '/users',
         name: 'backofficeUsers',
         component: BackofficeUsers
       },
       {
-        path: 'atividades',
+        path: '/atividades',
         name: 'backofficeAtividades',
         component: BackofficeAtividades
       },
       {
-        path: 'ucs',
+        path: '/ucs',
         name: 'backofficeUcs',
         component: BackofficeUcs
       },
       {
-        path: 'formula',
+        path: '/formula',
         name: 'backofficeFormula',
         component: BackofficeFormula
       },
