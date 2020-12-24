@@ -1,18 +1,79 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="login">
+    <b-form @submit.prevent="onSubmit">
+      <b-form-group 
+        id="input-number"
+        label="Número"
+        label-for="input-number"
+      >
+        <b-form-input 
+          id="input-number"
+          v-model="form.number"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group 
+        id="input-password"
+        label="Password"
+        label-for="input-password"
+      >
+        <b-form-input 
+          id="input-password"
+          v-model="form.password"
+          type="password"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-button class="col-6" type="submit" variant="primary">Submit</b-button>
+    </b-form>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import { mapGetters } from "vuex";
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
+  name: "Login",
+  data() {
+    return {
+      form: {
+        number: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    onSubmit() {
+      const user = this.getUserByNumber(this.form.number);
+      console.log(user);
+      if (user) {
+        if (user.password === this.form.password) {
+          this.$store.commit("USER_LOGGED_IN", user.id);
+          this.form.number = "";
+          this.form.password = "";
+          this.$swal({
+            text: `Bem-vindo ${user.name}!`,
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+          });
+          this.$router.push({ name: "Students" });
+        }
+      } else {
+        this.$swal({
+          text: "Utilizador não encontrado!",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(["getUserByNumber"])
   }
 };
 </script>
