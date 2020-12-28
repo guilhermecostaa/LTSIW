@@ -1,6 +1,6 @@
 <template>
-  <div class="login">
-    <b-form @submit.prevent="onSubmit">
+  <div class="login container">
+    <b-form @submit.prevent="onSubmit" >
       <b-form-group 
         id="input-number"
         label="Número"
@@ -60,7 +60,7 @@ export default {
             timer: 2000,
             showConfirmButton: false
           });
-          this.$router.push({ name: "Students" });
+          this.$router.push({ name: "students", params: {id: this.getLoggedUserId}});
         }
       } else {
         this.$swal({
@@ -73,7 +73,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserByNumber"])
+    ...mapGetters(["getUserByNumber", "getLoggedUserId"])
   }
 };
 </script>
