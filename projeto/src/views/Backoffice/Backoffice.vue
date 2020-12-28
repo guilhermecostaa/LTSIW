@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="backoffice/users">Users</router-link> |
-      <router-link to="backoffice/ucs">Ucs</router-link> |
-      <router-link to="/atividades">Atividades</router-link> |
-      <router-link to="/formula">Formula</router-link>
+    <div id="nav" class="">
+      <router-link :to="{name: 'backofficeUsers'}">Users</router-link> |
+      <router-link :to="{name: 'backofficeUcs'}">Ucs</router-link> |
+      <router-link :to="{name: 'backofficeAtividades'}">Atividades</router-link> |
+      <router-link :to="{name: 'backofficeFormula'}">Formula</router-link>
     </div>
+    <router-view />
   </div>
 </template>
 
@@ -24,7 +25,7 @@
 
 #nav a {
   font-weight: bold;
-  color: #FFAC4B;
+  color: primary;
 }
 
 #nav a.router-link-exact-active {

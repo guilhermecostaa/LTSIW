@@ -74,3 +74,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+    #button {
+        font-weight: bold;
+        color: #FFAC4B;
+    }
+</style>
