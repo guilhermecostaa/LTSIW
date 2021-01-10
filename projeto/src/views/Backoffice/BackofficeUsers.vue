@@ -1,5 +1,5 @@
 <template>
-  <div class="addUser">
+  <div class="addUser container">
     <b-form @submit.prevent="addUser">
       <b-form-group id="input-name" label="Nome" label-for="input-name">
         <b-form-input id="input-name" v-model="form.name" type="text" required></b-form-input>
@@ -15,7 +15,6 @@
 
       <b-form-group id="input-userType" label="User Type" label-for="input-userType">
         <div class="form-group">
-          <label for></label>
           <select class="form-control" name id="input-userType" v-model="form.userType">
             <option>Admin</option>
             <option>Student</option>
@@ -24,16 +23,26 @@
         </div>
       </b-form-group>
 
-      <b-button class="col-6" type="submit" variant="primary">Submit</b-button>
+      <b-button class="col-6" type="submit" variant="primary">Adicionar</b-button>
     </b-form>
+
+    <br />
+    <br />
+
+    <h1>Utilizadores</h1>
+    <div class="dataTable container">
+      <DataTable :items="getUsers" :fields="['name','number', 'userType', 'actions']"></DataTable>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import DataTable from "@/components/DataTable.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "BackofficeUsers",
+  components: { DataTable },
   data() {
     return {
       form: {
@@ -56,12 +65,19 @@ export default {
           showConfirmButton: false
         });
       } else {
+        const newUser = {
+          name: this.form.name,
+          number: this.form.number,
+          password: this.form.password,
+          userType: this.form.userType
+        }
+        this.$store.commit("ADD_USER", newUser);
         this.form.name = "";
         this.form.number = "";
         this.form.password = "";
         this.form.userType = "";
         this.$swal({
-          text: `${user.name} adicionado!`,
+          text: `${newUser.name} Adicionado!`,
           icon: "success",
           timer: 2000,
           showConfirmButton: false
@@ -70,14 +86,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserByNumber"])
+    ...mapGetters(["getUserByNumber", "getUsers"])
   }
 };
 </script>
 
 <style scoped>
-    #button {
-        font-weight: bold;
-        color: #FFAC4B;
-    }
 </style>

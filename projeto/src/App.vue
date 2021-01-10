@@ -8,7 +8,7 @@
 <script>
 import { mapMutations, mapGetters } from "vuex";
 import data from "@/store/data.js";
-import Navbar from '@/components/Navbar.vue';
+import Navbar from "@/components/Navbar.vue";
 export default {
   components: {
     Navbar

@@ -6,7 +6,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: [],
-    loggedUserId: 0
+    loggedUserId: 0,
+    activities: [],
+    ucs: []
   },
   mutations: {
     USER_LOGGED_IN(state, id) {
@@ -17,7 +19,14 @@ export default new Vuex.Store({
     },
     SET_USERS(state, users) {
       state.users = users;
-    }
+    },
+    ADD_USER(state, user) {
+      state.users.push(user)
+    },
+    REMOVE_USER_BY_ID(state, payload) {
+      let index = state.users.findIndex(user => user.id === payload)
+      state.users.splice(index, 1)
+    },
   },
   getters: {
     getUserByNumber: state => number => {
@@ -35,7 +44,7 @@ export default new Vuex.Store({
     getLoggedUsernameById: state => id => {
       let name = "";
       for (let i = 0; i < state.users.length; i++) {
-        if (id === state.users.id) {
+        if (id === state.users[i].id) {
           name = state.users[i].name;
         }
       }
@@ -48,8 +57,16 @@ export default new Vuex.Store({
           type = state.users[i].userType;
         }
       }
-      
       return type;
-    }
+    },
+    getTeachersByUserType: state => userType => {
+      return state.users.filter(user => user.userType == userType).name;
+    },
+    getUcs: state => {
+      return state.ucs
+    },
+    getActivities: state => {
+      return state.activities
+    },
   }
 })

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav" class="">
+    <div id="nav" class="container">
       <router-link :to="{name: 'backofficeUsers'}">Users</router-link> |
       <router-link :to="{name: 'backofficeUcs'}">Ucs</router-link> |
       <router-link :to="{name: 'backofficeAtividades'}">Atividades</router-link> |
