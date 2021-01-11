@@ -23,19 +23,26 @@ export default {
     } else {
       this.SET_USERS(JSON.parse(localStorage.users));
     }
+    if (!localStorage.ucs) {
+      localStorage.ucs = JSON.stringify(data.ucs);
+      this.SET_UCS(data.ucs);
+    } else {
+      this.SET_UCS(JSON.parse(localStorage.ucs));
+    }
     if (localStorage.loggedUserId) {
       this.USER_LOGGED_IN(parseInt(localStorage.loggedUserId));
     }
   },
   destroyed() {
     localStorage.users = JSON.stringify(this.getUsers);
+    localStorage.ucs = JSON.stringify(this.getUcs);
     localStorage.loggedUserId = JSON.stringify(this.getLoggedUserId);
   },
   methods: {
-    ...mapMutations(["SET_USERS", "USER_LOGGED_IN"])
+    ...mapMutations(["SET_USERS", "USER_LOGGED_IN", "SET_UCS"])
   },
   computed: {
-    ...mapGetters(["getUsers", "getLoggedUserId"])
+    ...mapGetters(["getUsers", "getLoggedUserId", "getUcs"])
   }
 };
 </script>
