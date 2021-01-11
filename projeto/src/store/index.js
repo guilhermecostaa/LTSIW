@@ -27,6 +27,12 @@ export default new Vuex.Store({
       let index = state.users.findIndex(user => user.id === payload)
       state.users.splice(index, 1)
     },
+    ADD_UC(state, uc) {
+      state.ucs.push(uc)
+    },
+    SET_UCS(state, ucs) {
+      state.ucs = ucs;
+    },
   },
   getters: {
     getUserByNumber: state => number => {
@@ -50,6 +56,13 @@ export default new Vuex.Store({
       }
       return name;
     },
+    getUserNextID: state => {
+      if (state.users.length === 0) {
+        return 1
+      } else {
+        return state.users[state.users.length - 1].id + 1
+      }
+    },
     getUserTypeById: state => id => {
       let type = "";
       for (let i = 0; i < state.users.length; i++) {
@@ -59,11 +72,21 @@ export default new Vuex.Store({
       }
       return type;
     },
-    getTeachersByUserType: state => userType => {
-      return state.users.filter(user => user.userType == userType).name;
+    getUsersByUserType: state => userType => {
+      return state.users.filter(user => user.userType == userType);
     },
     getUcs: state => {
       return state.ucs
+    },
+    getUcNextId: state => {
+      if (state.ucs.length === 0) {
+        return 1
+      } else {
+        return state.ucs[state.ucs.length - 1].id + 1
+      }
+    },
+    getUcByName: state => name => {
+      return state.ucs.find(uc => uc.name === name)
     },
     getActivities: state => {
       return state.activities
