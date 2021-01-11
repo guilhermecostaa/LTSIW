@@ -2,7 +2,7 @@
   <div>
     <b-row>
       <b-col>
-        <b-form-input v-model="filter" type="search" placeholder="Search"></b-form-input>
+        <b-form-input v-model="filter" type="search" placeholder="Procurar"></b-form-input>
       </b-col>
     </b-row>
     <br />
@@ -29,14 +29,14 @@
 
 <script>
 export default {
-  props: ["items", "fields"],
+  props: ["items", "fields", "type"],
   data() {
     return {
       bordered: true,
       hover: true,
       perPage: 5,
       currentPage: 1,
-      filter: ""
+      filter: "",
     };
   },
   computed: {
@@ -46,18 +46,20 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      const index = this.items.indexOf(x => x.id === id);
-      this.items.splice(index,1)
       this.$swal({
         title: "Tem a certeza?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Delete"
+        confirmButtonText: "Apagar"
       }).then(result => {
         if (result.value) {
-          this.$swal("Utilizador apagado", "success");
+          if (this.type === "users") {
+            this.$store.commit("REMOVE_USER_BY_ID", id);
+          }
+          this.$swal("Apagado!", "", "success");
+          
         }
       });
     }
