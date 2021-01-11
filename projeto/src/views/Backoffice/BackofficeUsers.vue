@@ -13,12 +13,12 @@
         <b-form-input id="input-password" v-model="form.password" type="password" required></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-userType" label="User Type" label-for="input-userType">
+      <b-form-group id="input-userType" label="Tipo de Utilizador" label-for="input-userType">
         <div class="form-group">
           <select class="form-control" name id="input-userType" v-model="form.userType">
-            <option>Admin</option>
-            <option>Student</option>
-            <option>Teacher</option>
+            <option>admin</option>
+            <option>student</option>
+            <option>teacher</option>
           </select>
         </div>
       </b-form-group>
@@ -31,7 +31,7 @@
 
     <h1>Utilizadores</h1>
     <div class="dataTable container">
-      <DataTable :items="getUsers" :fields="['name','number', 'userType', 'actions']"></DataTable>
+      <DataTable :items="getUsers" :fields="['name','number', 'userType', 'actions']" type="users"></DataTable>
     </div>
   </div>
 </template>
@@ -66,6 +66,7 @@ export default {
         });
       } else {
         const newUser = {
+          id: this.getUserNextID,
           name: this.form.name,
           number: this.form.number,
           password: this.form.password,
@@ -86,7 +87,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserByNumber", "getUsers"])
+    ...mapGetters(["getUserByNumber", "getUsers", "getUserNextID"])
   }
 };
 </script>
