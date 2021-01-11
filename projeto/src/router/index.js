@@ -18,6 +18,9 @@ const routes = [
     path: "/",
     name: "login",
     component: Login,
+    meta: {
+      requiresNoAuth: true
+    }
   },
   {
     path: "/searchStudents",
@@ -96,7 +99,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && Store.getters.getLoggedUserId == 0) {
     next({ name: "login" })
-  } else if (Store.getters.getLoggedUserId != 0) {
+  } else if (to.meta.requiresNoAuth && Store.getters.getLoggedUserId != 0) {
     if (Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "admin" || Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "teacher") {
       console.log("entrei")
       next({ name: "searchStudents" })
