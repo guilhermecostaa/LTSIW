@@ -36,7 +36,7 @@ export default {
       hover: true,
       perPage: 5,
       currentPage: 1,
-      filter: "",
+      filter: ""
     };
   },
   computed: {
@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     deleteItem(id) {
+      console.log(id);
       this.$swal({
         title: "Tem a certeza?",
         icon: "warning",
@@ -58,8 +59,16 @@ export default {
           if (this.type === "users") {
             this.$store.commit("REMOVE_USER_BY_ID", id);
           }
+          if (this.type === "ucs") {
+            this.$store.commit("REMOVE_UC_BY_ID", id);
+          }
+          if (this.type === "activities") {
+            this.$store.commit("REMOVE_ACTIVITY_BY_ID", id);
+          }
+          if (this.type === "grades") {
+            this.$store.commit("REMOVE_GRADE_BY_ID", id);
+          }
           this.$swal("Apagado!", "", "success");
-          
         }
       });
     }

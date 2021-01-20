@@ -29,6 +29,18 @@ export default {
     } else {
       this.SET_UCS(JSON.parse(localStorage.ucs));
     }
+    if (!localStorage.activities) {
+      localStorage.activities = JSON.stringify(data.activities);
+      this.SET_ACTIVITIES(data.activities);
+    } else {
+      this.SET_ACTIVITIES(JSON.parse(localStorage.activities));
+    }
+    if (!localStorage.grades) {
+      localStorage.grades = JSON.stringify(data.grades);
+      this.SET_GRADES(data.grades);
+    } else {
+      this.SET_GRADES(JSON.parse(localStorage.grades));
+    }
     if (localStorage.loggedUserId) {
       this.USER_LOGGED_IN(parseInt(localStorage.loggedUserId));
     }
@@ -36,38 +48,17 @@ export default {
   destroyed() {
     localStorage.users = JSON.stringify(this.getUsers);
     localStorage.ucs = JSON.stringify(this.getUcs);
+    localStorage.activities = JSON.stringify(this.getActivities);
+    localStorage.grades = JSON.stringify(this.getGrades);
     localStorage.loggedUserId = JSON.stringify(this.getLoggedUserId);
   },
   methods: {
-    ...mapMutations(["SET_USERS", "USER_LOGGED_IN", "SET_UCS"])
+    ...mapMutations(["SET_USERS", "USER_LOGGED_IN", "SET_UCS", "SET_ACTIVITIES", "SET_GRADES"])
   },
   computed: {
-    ...mapGetters(["getUsers", "getLoggedUserId", "getUcs"])
+    ...mapGetters(["getUsers", "getLoggedUserId", "getUcs", "getActivities", "getGrades"])
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-
-</style>

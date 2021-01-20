@@ -1,31 +1,17 @@
 <template>
-  <div class="addUser">
-    <b-form @submit.prevent="addUser">
-      <b-form-group id="input-name" label="Nome" label-for="input-name">
-        <b-form-input id="input-name" v-model="form.name" type="text" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-number" label="Número" label-for="input-number">
-        <b-form-input id="input-number" v-model="form.number" type="text" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-password" label="Password" label-for="input-password">
-        <b-form-input id="input-password" v-model="form.password" type="password" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-userType" label="User Type" label-for="input-userType">
-        <div class="form-group">
-          <label for></label>
-          <select class="form-control" name id="input-userType" v-model="form.userType">
-            <option>Admin</option>
-            <option>Student</option>
-            <option>Teacher</option>
-          </select>
-        </div>
-      </b-form-group>
-
-      <b-button class="col-6" type="submit" variant="primary">Submit</b-button>
-    </b-form>
+  <div class="user container">
+    <br>
+    <br>
+    <h1>Perfil de {{getUserById($route.params.id).name}}</h1>
+    <br>
+    <h2>Dados pessoais: </h2>
+    <br>
+    <p>Nome: {{getUserById($route.params.id).name}}</p>
+    <p>Número: {{getUserById($route.params.id).number}}</p>
+    <br>
+    <h2>Atividades: </h2>
+    <h2>Notas: </h2>
+    <h2>Media: </h2>
   </div>
 </template>
 
@@ -35,15 +21,20 @@ import { mapGetters } from "vuex";
 export default {
   name: "Students",
   data() {
-    return {
-      
-    };
+    return {};
   },
-  methods: {
-    
-  },
+  methods: {},
   computed: {
-    ...mapGetters(["getUserByNumber"])
+    ...mapGetters(["getUserById"])
   }
 };
 </script>
+
+<style scoped>
+  p{
+    text-align: left;
+  }
+  h2{
+    text-align: left;
+  }
+</style>

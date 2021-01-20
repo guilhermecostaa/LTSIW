@@ -7,8 +7,9 @@ import Backoffice from "../views/Backoffice/Backoffice.vue";
 import BackofficeUsers from "../views/Backoffice/BackofficeUsers.vue";
 import BackofficeAtividades from "../views/Backoffice/BackofficeAtividades.vue";
 import BackofficeUcs from "../views/Backoffice/BackofficeUcs.vue";
+import BackofficeNotas from "../views/Backoffice/BackofficeNotas.vue";
 import BackofficeFormula from "../views/Backoffice/BackofficeFormula.vue";
-import Rankings from "../views/Rankings.vue";
+import Atividades from "../views/Atividades.vue";
 import Store from "../store";
 
 Vue.use(VueRouter);
@@ -18,9 +19,6 @@ const routes = [
     path: "/",
     name: "login",
     component: Login,
-    meta: {
-      requiresNoAuth: true
-    }
   },
   {
     path: "/searchStudents",
@@ -39,9 +37,9 @@ const routes = [
     }
   },
   {
-    path: "/rankings",
-    name: "rankings",
-    component: Rankings,
+    path: "/atividades",
+    name: "atividades",
+    component: Atividades,
     meta: {
       requiresAuth: true
     }
@@ -78,6 +76,14 @@ const routes = [
         },
       },
       {
+        path: "notas",
+        name: "backofficeNotas",
+        component: BackofficeNotas,
+        meta: {
+          requiresAuth: true
+        },
+      },
+      {
         path: "formula",
         name: "backofficeFormula",
         component: BackofficeFormula,
@@ -97,18 +103,18 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && Store.getters.getLoggedUserId == 0) {
-    next({ name: "login" })
-  } else if (to.meta.requiresNoAuth && Store.getters.getLoggedUserId != 0) {
-    if (Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "admin" || Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "teacher") {
-      console.log("entrei")
-      next({ name: "searchStudents" })
-    } else {
-      next({ name: "students", params: { id: Store.getters.getLoggedUserId } })
+  if (to.meta.requiresAuth) {
+    if (Store.getters.getLoggedUserId == 0) {
+      next({ name: "login" })
+    } else{
+      if (Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "admin" || Store.getters.getUserTypeById(Store.getters.getLoggedUserId) == "teacher") {
+        next()
+      }else{
+        next()
+      }
     }
-  }
-  else {
-    next();
+  }else{
+    next()
   }
 });
 

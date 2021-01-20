@@ -6,7 +6,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav v-show="getLoggedUserId == '0' ? false : true">
-        <b-nav-item href="#">Link</b-nav-item>
+        <b-nav-item href="" @click="btnActivitiesClicked">Atividades</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -47,6 +47,9 @@ export default {
     },
     btnBackofficeClicked() {
       this.$router.push({ name: "backofficeUsers" });
+    },
+    btnActivitiesClicked() {
+      this.$router.push({ name: "atividades" });
     }
   },
   computed: {

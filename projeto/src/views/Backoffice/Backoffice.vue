@@ -4,6 +4,7 @@
       <router-link :to="{name: 'backofficeUsers'}">Users</router-link> |
       <router-link :to="{name: 'backofficeUcs'}">Ucs</router-link> |
       <router-link :to="{name: 'backofficeAtividades'}">Atividades</router-link> |
+      <router-link :to="{name: 'backofficeNotas'}">Notas</router-link> |
       <router-link :to="{name: 'backofficeFormula'}">Formula</router-link>
     </div>
     <router-view />

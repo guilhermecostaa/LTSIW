@@ -1,13 +1,18 @@
 module.exports = {
     users: [
-        { id: 1, name: "Guilherme", number: "9170193", password: "1234", userType: "admin" },
-        { id: 2, name: "Nuno", number: "9170197", password: "1234", userType: "student" },
-        { id: 3, name: "Gustavo", number: "9170196", password: "1234", userType: "teacher" }
+        { id: 1, name: "Guilherme", number: "9170193", password: "1234", userType: "admin", ucs: []},
+        { id: 2, name: "Nuno", number: "9170197", password: "1234", userType: "student" , ucs: [1, 2, 3]},
+        { id: 3, name: "Gustavo", number: "9170196", password: "1234", userType: "teacher", ucs: []}
     ],
     ucs: [
-        { id: 1, name: "Programação Web I", abbreviation: "PWI", teacher: 3},
-        { id: 2, name: "Computação Móvel e Ubíqua", abbreviation: "CMU", teacher: 3},
-        { id: 3, name: "Programação Web II", abbreviation: "PWII", teacher: 3},
+        { id: 1, name: "Programação Web I", abbreviation: "PWI", teacher: 3 },
+        { id: 2, name: "Computação Móvel e Ubíqua", abbreviation: "CMU", teacher: 3 },
+        { id: 3, name: "Programação Web II", abbreviation: "PWII", teacher: 3 },
+    ],
+    grades: [
+        { id: 1, idStudent: 2, idUc: 3, grade: 12 },
+        { id: 2, idStudent: 2, idUc: 1, grade: 11 },
+        { id: 3, idStudent: 2, idUc: 2, grade: 10 }
     ],
     activities: [
         {
@@ -20,7 +25,7 @@ module.exports = {
             hourEnd: "11:00",
             dateStart: "2018-11-20",
             durationDays: 1,
-            dateEnd: "2018-11-20"
+            img: "https://eventos.esmad.ipp.pt/plug-in/img/bg-masthead.jpg"
         },
         {
             id: 2,
@@ -32,7 +37,7 @@ module.exports = {
             hourEnd: "11:00",
             dateStart: "2018-11-20",
             durationDays: 1,
-            dateEnd: "2018-11-20"
+            img: "https://eventos.esmad.ipp.pt/plug-in/img/bg-masthead.jpg"
         },
         {
             id: 3,
@@ -44,7 +49,7 @@ module.exports = {
             hourEnd: "11:00",
             dateStart: "2018-11-20",
             durationDays: 1,
-            dateEnd: "2018-11-20"
+            img: "https://eventos.esmad.ipp.pt/plug-in/img/bg-masthead.jpg"
         }
     ]
 }

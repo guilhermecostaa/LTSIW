@@ -1,5 +1,5 @@
 <template>
-  <div id="addUc container">
+  <div id="addUc" class="container">
     <b-form @submit.prevent="addUc">
       <b-form-group id="input-name" label="Nome" label-for="input-name">
         <b-form-input id="input-name" v-model="form.name" type="text" required></b-form-input>
@@ -19,7 +19,7 @@
 
     <h1>Ucs</h1>
     <div class="dataTable container">
-      <DataTable :items="getUcs.map(uc => {return {name: uc.name, teacher: getUserById(uc.teacher).name, abbreviation: uc.abbreviation}})" :fields="['name','teacher', 'abbreviation', 'actions']" type="ucs"></DataTable>
+      <DataTable :items="getUcs.map(uc => {return {id: uc.id, name: uc.name, teacher: getUserById(uc.teacher).name, abbreviation: uc.abbreviation}})" :fields="['name','teacher', 'abbreviation', 'actions']" type="ucs"></DataTable>
     </div>
   </div>
 </template>

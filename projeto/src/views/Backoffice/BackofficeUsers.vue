@@ -23,6 +23,15 @@
         </div>
       </b-form-group>
 
+      <b-form-group v-show="form.userType == 'student' ? true : false" label="Ucs incrito">
+        <b-form-checkbox-group
+          id="checkbox-group-1"
+          v-model="form.ucs"
+          :options="getUcs.map(uc => {return {value: uc.id, text: uc.name}})"
+          name="flavour-1"
+        ></b-form-checkbox-group>
+      </b-form-group>
+
       <b-button class="col-6" type="submit" variant="primary">Adicionar</b-button>
     </b-form>
 
@@ -49,7 +58,8 @@ export default {
         name: "",
         number: "",
         password: "",
-        userType: ""
+        userType: "",
+        ucs: []
       },
       Users: []
     };
@@ -70,13 +80,16 @@ export default {
           name: this.form.name,
           number: this.form.number,
           password: this.form.password,
-          userType: this.form.userType
-        }
+          userType: this.form.userType,
+          ucs: this.form.ucs
+
+        };
         this.$store.commit("ADD_USER", newUser);
         this.form.name = "";
         this.form.number = "";
         this.form.password = "";
         this.form.userType = "";
+        this.form.ucs = "";
         this.$swal({
           text: `${newUser.name} Adicionado!`,
           icon: "success",
@@ -87,10 +100,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserByNumber", "getUsers", "getUserNextID"])
+    ...mapGetters(["getUserByNumber", "getUsers", "getUserNextID", "getUcs"])
   }
 };
 </script>
-
-<style scoped>
-</style>
