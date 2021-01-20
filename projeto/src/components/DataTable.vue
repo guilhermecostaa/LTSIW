@@ -16,9 +16,19 @@
           :filter="filter"
           :perPage="perPage"
           :currentPage="currentPage"
+          @row-selected="$emit('clicked-student', 1)"
         >
           <template v-slot:cell(actions)="data">
-            <b-button variant="danger" @click="deleteItem(data.item.id)">Delete</b-button>
+            <b-button
+              v-if="type != 'searchStudent'"
+              variant="danger"
+              @click="deleteItem(data.item.id)"
+            >Delete</b-button>
+            <b-button
+              v-if="type == 'searchStudent'"
+              variant="primary"
+              @click="searchStudent(data.item.id)"
+            >Ver</b-button>
           </template>
         </b-table>
         <b-pagination align="center" v-model="currentPage" :total-rows="rows" :per-page="perPage"></b-pagination>
@@ -45,6 +55,12 @@ export default {
     }
   },
   methods: {
+    searchStudent(id) {
+      this.$router.push({
+        name: "students",
+        params: { id: id }
+      });
+    },
     deleteItem(id) {
       console.log(id);
       this.$swal({

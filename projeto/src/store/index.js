@@ -168,6 +168,9 @@ export default new Vuex.Store({
     },
     getStudentsByUserType: state => userType => {
       return state.users.filter(user => user.userType == userType)
+    },
+    getUserGradesByIdStudent: state => idStudent =>{
+      return state.grades.filter(grade => grade.idStudent == idStudent)
     }
   }
 })
