@@ -35,6 +35,12 @@ export default {
     } else {
       this.SET_ACTIVITIES(JSON.parse(localStorage.activities));
     }
+    if (!localStorage.typeActivities) {
+      localStorage.typeActivities = JSON.stringify(data.typeActivities);
+      this.SET_TYPE_ACTIVITIES(data.typeActivities);
+    } else {
+      this.SET_TYPE_ACTIVITIES(JSON.parse(localStorage.typeActivities));
+    }
     if (!localStorage.grades) {
       localStorage.grades = JSON.stringify(data.grades);
       this.SET_GRADES(data.grades);
@@ -51,12 +57,27 @@ export default {
     localStorage.activities = JSON.stringify(this.getActivities);
     localStorage.grades = JSON.stringify(this.getGrades);
     localStorage.loggedUserId = JSON.stringify(this.getLoggedUserId);
+    localStorage.typeActivities = JSON.stringify(this.getTypeActivities);
   },
   methods: {
-    ...mapMutations(["SET_USERS", "USER_LOGGED_IN", "SET_UCS", "SET_ACTIVITIES", "SET_GRADES"])
+    ...mapMutations([
+      "SET_USERS",
+      "USER_LOGGED_IN",
+      "SET_UCS",
+      "SET_ACTIVITIES",
+      "SET_GRADES",
+      "SET_TYPE_ACTIVITIES"
+    ])
   },
   computed: {
-    ...mapGetters(["getUsers", "getLoggedUserId", "getUcs", "getActivities", "getGrades"])
+    ...mapGetters([
+      "getUsers",
+      "getLoggedUserId",
+      "getUcs",
+      "getActivities",
+      "getGrades",
+      "getTypeActivities"
+    ])
   }
 };
 </script>

@@ -1,12 +1,13 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="primary">
-    <b-navbar-brand href="#">LTSIW</b-navbar-brand>
+  <b-navbar toggleable="lg" type="dark" variant="primary" style="heigth: 59px">
+    <router-link class="mr-4" id="router"
+      :to="(getUserTypeById(getLoggedUserId) == 'admin' || getUserTypeById(getLoggedUserId) == 'teacher') ? {name: 'searchStudents'} : {name: 'students', params:{id: getLoggedUserId}}"
+    >LTSIW</router-link>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav v-show="getLoggedUserId == '0' ? false : true">
-        <b-nav-item href="" @click="btnActivitiesClicked">Atividades</b-nav-item>
+        <b-nav-item href @click="btnActivitiesClicked">Atividades</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -16,8 +17,16 @@
           <template #button-content>
             <em>Olá, {{getLoggedUsernameById(getLoggedUserId)}}</em>
           </template>
-          <b-dropdown-item href="#" @click="btnBackofficeClicked" v-show="getUserTypeById(getLoggedUserId) == 'admin' ? true : false">Backoffice</b-dropdown-item>
-          <b-dropdown-item href="#" @click="btnLogoutClicked" v-show="getLoggedUserId == '0' ? false : true">Sign Out</b-dropdown-item>
+          <b-dropdown-item
+            href="#"
+            @click="btnBackofficeClicked"
+            v-show="getUserTypeById(getLoggedUserId) == 'admin' ? true : false"
+          >Backoffice</b-dropdown-item>
+          <b-dropdown-item
+            href="#"
+            @click="btnLogoutClicked"
+            v-show="getLoggedUserId == '0' ? false : true"
+          >Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -53,11 +62,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getUserTypeById", "getLoggedUserId", "getLoggedUsernameById"])
+    ...mapGetters([
+      "getUserTypeById",
+      "getLoggedUserId",
+      "getLoggedUsernameById"
+    ])
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
+#router {
+  color: white !important;
+}
+#router:hover {
+  text-decoration: none !important;
+}
 </style>

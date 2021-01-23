@@ -9,7 +9,8 @@ export default new Vuex.Store({
     loggedUserId: 0,
     activities: [],
     ucs: [],
-    grades: []
+    grades: [],
+    typeActivities: []
   },
   mutations: {
     USER_LOGGED_IN(state, id) {
@@ -57,6 +58,13 @@ export default new Vuex.Store({
     REMOVE_GRADE_BY_ID(state, payload) {
       let index = state.grades.findIndex(grade => grade.id === payload)
       state.grades.splice(index, 1)
+    },
+    ADD_USER_TO_ACTIVITY(state, payload) {
+      let index = state.users.findIndex(user => user.id === state.loggedUserId)
+      state.users[index].activities.push(payload)
+    },
+    SET_TYPE_ACTIVITIES(state, typeActivities) {
+      state.typeActivities = typeActivities
     }
   },
   getters: {
@@ -146,6 +154,9 @@ export default new Vuex.Store({
     getActivities: state => {
       return state.activities
     },
+    getActivityById: state => id => {
+      return state.activities.find(activity => activity.id === id)
+    },
     getActivityByName: state => name => {
       return state.activities.find(activity => activity.name === name)
     },
@@ -155,6 +166,9 @@ export default new Vuex.Store({
       } else {
         return state.activities[state.activities.length - 1].id + 1
       }
+    },
+    getTypeActivities: state => {
+      return state.typeActivities
     },
     getGrades: state => {
       return state.grades
@@ -169,8 +183,38 @@ export default new Vuex.Store({
     getStudentsByUserType: state => userType => {
       return state.users.filter(user => user.userType == userType)
     },
-    getUserGradesByIdStudent: state => idStudent =>{
+    getUserGradesByIdStudent: state => idStudent => {
       return state.grades.filter(grade => grade.idStudent == idStudent)
-    }
+    },
+    getTypeActivityNameById: state => id => {
+      let name = "";
+      for (let i = 0; i < state.typeActivities.length; i++) {
+        if (id === state.typeActivities[i].id) {
+          name = state.typeActivities[i].name;
+        }
+      }
+      return name;
+    },
+    getUcYearById: state => id => {
+      let year = "";
+      for (let i = 0; i < state.ucs.length; i++) {
+        if (id === state.ucs[i].id) {
+          year = state.ucs[i].year;
+        }
+      }
+      return year;
+    },
+    getUcSemesterById: state => id => {
+      let semester = "";
+      for (let i = 0; i < state.ucs.length; i++) {
+        if (id === state.ucs[i].id) {
+          semester = state.ucs[i].semester;
+        }
+      }
+      return semester;
+    },
+    getUserActivitiesById: state => id => {
+      return state.users.find(user => user.id == id).activities
+    },
   }
 })

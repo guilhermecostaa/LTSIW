@@ -5,8 +5,14 @@
         <b-form-input id="input-name" v-model="form.name" type="text" required></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-category" label="Categoria" label-for="input-category">
-        <b-form-input id="input-category" v-model="form.category" type="text" required></b-form-input>
+      <b-form-group id="input-type" label="Tipo de atividade" label-for="input-type">
+        <div class="form-group">
+          <b-form-select
+            v-model="form.type"
+            :options="getTypeActivities.map(type => {return {value: type.id, text: type.name}})"
+            required
+          ></b-form-select>
+        </div>
       </b-form-group>
 
       <b-form-group id="input-description" label="Descrição" label-for="input-description">
@@ -24,13 +30,24 @@
       <b-form-group id="input-hourEnd" label="Hora Fim" label-for="input-hourEnd">
         <b-form-timepicker v-model="form.hourEnd" locale="en"></b-form-timepicker>
       </b-form-group>
-   
+
       <b-form-group id="input-dateStart" label="Dia de começo" label-for="input-dateStart">
-         <b-form-datepicker id="input-dateStart" v-model="form.dateStart" class="mb-2" required></b-form-datepicker>
+        <b-form-datepicker
+          id="input-dateStart"
+          v-model="form.dateStart"
+          :pickerOptions="pickerOptions"
+          type="date"
+          class="mb-2"
+          required
+        ></b-form-datepicker>
       </b-form-group>
 
       <b-form-group id="input-durationDays" label="Duração" label-for="input-durationDays">
         <b-form-input id="input-durationDays" v-model="form.durationDays" type="number" required></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-photo" label="Foto" label-for="input-photo">
+        <b-form-input id="input-photo" v-model="form.photo" type="url" required></b-form-input>
       </b-form-group>
 
       <b-button class="col-6" type="submit" variant="primary">Adicionar</b-button>
@@ -41,7 +58,11 @@
 
     <h1>Atividades</h1>
     <div class="dataTable container">
-      <DataTable :items="getActivities.map(activity => {return {id: activity.id, name: activity.name, category: activity.category, dateStart: activity.dateStart, hourStart: activity.hourStart, durationDays: activity.durationDays}})" :fields="['name', 'category', 'dateStart', 'hourStart', 'durationDays', 'actions']" type="activities"></DataTable>
+      <DataTable
+        :items="getActivities.map(activity => {return {id: activity.id, name: activity.name, type: getTypeActivityNameById(activity.type), dateStart: activity.dateStart, hourStart: activity.hourStart, durationDays: activity.durationDays, photo: activity.photo}})"
+        :fields="['name', 'type', 'dateStart', 'hourStart', 'durationDays', 'actions']"
+        type="activities"
+      ></DataTable>
     </div>
   </div>
 </template>
@@ -57,13 +78,19 @@ export default {
     return {
       form: {
         name: "",
-        category: "",
+        type: "",
         description: "",
         classroom: "",
         hourStart: "",
         hourEnd: "",
         dateStart: "",
-        durationDays: ""
+        durationDays: "",
+        photo: ""
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
       },
       Activities: []
     };
@@ -82,23 +109,25 @@ export default {
         const newActivity = {
           id: this.getActivityNextId,
           name: this.form.name,
-          category: this.form.category,
+          type: this.form.type,
           description: this.form.description,
           classroom: this.form.classroom,
           hourStart: this.form.hourStart,
           hourEnd: this.form.hourEnd,
           dateStart: this.form.dateStart,
-          durationDays: this.form.durationDays
+          durationDays: this.form.durationDays,
+          photo: this.formphoto
         };
         this.$store.commit("ADD_ACTIVITY", newActivity);
         this.form.name = "";
-        this.form.category = "";
+        this.form.type = "";
         this.form.description = "";
         this.form.classroom = "";
         this.form.hourStart = "";
         this.form.hourEnd = "";
         this.form.dateStart = "";
         this.form.durationDays = "";
+        this.form.photo = "";
         this.$swal({
           text: `${newActivity.name} Adicionado!`,
           icon: "success",
@@ -109,7 +138,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getActivities", "getActivityByName", "getActivityNextId"])
+    ...mapGetters([
+      "getActivities",
+      "getActivityByName",
+      "getActivityNextId",
+      "getTypeActivities",
+      "getTypeActivityNameById"
+    ])
   }
 };
 </script>

@@ -11,6 +11,14 @@
         </div>
       </b-form-group>
 
+      <b-form-group id="input-year" label="Ano" label-for="input-year">
+        <b-form-input id="input-year" v-model="form.year" type="number" min="0" max="3" required></b-form-input>
+      </b-form-group>
+
+       <b-form-group id="input-semester" label="Semestre" label-for="input-semester">
+        <b-form-input id="input-semester" v-model="form.semester" type="number" min="0" max="2" required></b-form-input>
+      </b-form-group>
+
       <b-button class="col-6" type="submit" variant="primary">Adicionar</b-button>
     </b-form>
 
@@ -19,7 +27,7 @@
 
     <h1>Ucs</h1>
     <div class="dataTable container">
-      <DataTable :items="getUcs.map(uc => {return {id: uc.id, name: uc.name, teacher: getUserById(uc.teacher).name, abbreviation: uc.abbreviation}})" :fields="['name','teacher', 'abbreviation', 'actions']" type="ucs"></DataTable>
+      <DataTable :items="getUcs.map(uc => {return {id: uc.id, name: uc.name, teacher: getUserById(uc.teacher).name, abbreviation: uc.abbreviation, year: uc.year, semester: uc.semester}})" :fields="['name','teacher', 'abbreviation', 'year', 'semester', 'actions']" type="ucs"></DataTable>
     </div>
   </div>
 </template>
@@ -35,7 +43,9 @@ export default {
     return {
       form: {
         name: "",
-        teacher: ""
+        teacher: "",
+        year: "",
+        semester: ""
       },
       Ucs: []
     };
@@ -55,11 +65,15 @@ export default {
           id: this.getUcNextId,
           name: this.form.name,
           teacher: this.form.teacher,
-          abbreviation: this.getAbbreviationByName(this.form.name)
+          abbreviation: this.getAbbreviationByName(this.form.name),
+          year: this.form.year,
+          semester: this.form.semester
         }
         this.$store.commit("ADD_UC", newUc);
         this.form.name = "";
         this.form.teacher = "";
+        this.form.year = "";
+        this.form.semester = "";
         this.$swal({
           text: `${newUc.name} Adicionada!`,
           icon: "success",

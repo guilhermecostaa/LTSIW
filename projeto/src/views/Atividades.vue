@@ -7,15 +7,11 @@
     <div>
       <span v-if="this.getActivities.length===0">SEM ATIVIDADES ADICIONADAS</span>
       <div v-else>
-        <b-row>
-          <div class="cards container">
-            <Card 
-                v-for="activity in getActivities"
-                :key="activity.title"
-                :activity="activity"
-            ></Card>
-          </div>
-        </b-row>
+        <div class="cards container">
+          <b-row>
+            <Card v-for="activity in getActivities" :key="activity.id" :activity="activity"></Card>
+          </b-row>
+        </div>
       </div>
     </div>
   </div>
@@ -33,10 +29,13 @@ export default {
       activities: []
     };
   },
+  created() {
+    console.log(this.getActivities);
+  },
   methods: {},
   computed: {
     ...mapGetters(["getActivities"])
-  },
+  }
 };
 </script>
 

@@ -1,46 +1,48 @@
 <template>
-  <div>
-    <b-row>
-      <b-col>
-        <b-form-input v-model="filter" type="search" placeholder="Procurar"></b-form-input>
-      </b-col>
-    </b-row>
-    <br />
-    <b-row>
-      <b-col>
-        <b-card
-          :title="activity.title"
-          :img-src="activity.img"
-          style="max-width: 20rem;"
-          class="mb-2"
-          :filter="filter"
-        >
-          <b-card-text>{{ getDescription(activity.description)}}</b-card-text>
+  <b-col lg="3" md="4" sm="6" col="12">
+    <b-card
+      :title="activity.name"
+      :img-src="activity.photo"
+      style="max-width: 20rem;"
+      class="mb-2"
+    >
+      <b-card-text>{{ getDescription(activity.description)}}</b-card-text>
 
-          <b-button href="#" variant="primary" @click="signInActivity()">Inscrever-me</b-button>
-        </b-card>
-      </b-col>
-    </b-row>
-  </div>
+      <b-button href="#" variant="primary" @click="signInActivity(activity.id)">Inscrever-me</b-button>
+    </b-card>
+  </b-col>
 </template>
 
 
 <script>
 export default {
-  props: [{ activity: Object }, "filter"],
+  props: ["activity"],
   data() {
     return {};
   },
   computed: {},
   methods: {
     signInActivity(id) {
-      console.log(id);
+      this.$swal({
+        title: "Pretende-se inscrever na atividade?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Inscrever"
+      }).then(result => {
+        if (result.value) {
+          this.$store.commit("ADD_USER_TO_ACTIVITY", id);
+          this.$swal("Inscrito!", "", "success");
+        }
+      });
     },
     getDescription(desc) {
-      if (desc.length < 30) {
+      if (desc.length < 90) {
         return desc;
       } else {
-        return `${(desc.substr(0), 30)}...`;
+        const spacePosition = desc.indexOf(" ", 90);
+        return `${desc.substr(0, spacePosition)}...`;
       }
     }
   }
