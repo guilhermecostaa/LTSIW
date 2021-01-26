@@ -65,6 +65,54 @@ export default new Vuex.Store({
     },
     SET_TYPE_ACTIVITIES(state, typeActivities) {
       state.typeActivities = typeActivities
+    },
+    EDIT_USER_BY_ID(state, payload) {
+      const { user } = payload
+      state.users.forEach(stateUser => {
+        if (stateUser.id == user.id) {
+          stateUser.name = user.name
+          stateUser.password = user.password
+          stateUser.number = user.number
+          stateUser.userType = user.userType
+        }
+      })
+    },
+    EDIT_UC_BY_ID(state, payload) {
+      const { uc } = payload
+      state.ucs.forEach(stateUc => {
+        if (stateUc.id == uc.id) {
+          stateUc.name = uc.name
+          stateUc.teacher = uc.teacher
+          stateUc.year = uc.year
+          stateUc.semester = uc.semester
+        }
+      })
+    },
+    EDIT_ACTIVITY_BY_ID(state, payload) {
+      const { activity } = payload
+      state.activities.forEach(stateActivity => {
+        if (stateActivity.id == activity.id) {
+          stateActivity.name = activity.name
+          stateActivity.type = activity.type
+          stateActivity.description = activity.description
+          stateActivity.classroom = activity.classroom
+          stateActivity.hourStart = activity.hourStart
+          stateActivity.hourEnd = activity.hourEnd
+          stateActivity.dateStart = activity.dateStart
+          stateActivity.durationDays = activity.durationDays
+          stateActivity.photo = activity.photo
+        }
+      })
+    },
+    EDIT_GRADE_BY_ID(state, payload) {
+      const { grade } = payload
+      state.grades.forEach(stateGrade => {
+        if (stateGrade.id == grade.id) {
+          stateGrade.uc = grade.uc
+          stateGrade.student = grade.student
+          stateGrade.grade = grade.grade
+        }
+      })
     }
   },
   getters: {
@@ -173,6 +221,9 @@ export default new Vuex.Store({
     getGrades: state => {
       return state.grades
     },
+    getGradeById: state => id => {
+      return state.grades.find(grade => grade.id === id)
+    },
     getGradeNextId: state => {
       if (state.grades.length === 0) {
         return 1
@@ -184,7 +235,7 @@ export default new Vuex.Store({
       return state.users.filter(user => user.userType == userType)
     },
     getUserGradesByIdStudent: state => idStudent => {
-      return state.grades.filter(grade => grade.idStudent == idStudent)
+      return state.grades.filter(grade => grade.idStudent == idStudent) 
     },
     getTypeActivityNameById: state => id => {
       let name = "";
@@ -214,7 +265,7 @@ export default new Vuex.Store({
       return semester;
     },
     getUserActivitiesById: state => id => {
-      return state.users.find(user => user.id == id).activities
-    },
+      return state.users.find(user => user.id == id).activities || []
+    }
   }
 })

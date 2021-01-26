@@ -9,7 +9,7 @@
       <div v-else>
         <div class="cards container">
           <b-row>
-            <Card v-for="activity in getActivities" :key="activity.id" :activity="activity"></Card>
+            <Card v-for="activity in getActivities" :key="activity.id" type="activities" :activity="activity"></Card>
           </b-row>
         </div>
       </div>
@@ -29,12 +29,10 @@ export default {
       activities: []
     };
   },
-  created() {
-    console.log(this.getActivities);
-  },
   methods: {},
   computed: {
     ...mapGetters(["getActivities"])
+    
   }
 };
 </script>

@@ -97,10 +97,16 @@ export default {
   },
   methods: {
     addActivity() {
-      const activity = this.getActivityByName(this.form.name);
-      if (activity) {
-        this.$swal({
-          text: "Já existe uc com esse nome!",
+      const errors = [];
+      if (new Date(this.form.dateStart) < new Date()) {
+        errors.push("Data inválida.");
+      }
+      if (this.getActivityByName(this.form.name)) {
+        errors.push("Já existe uma atividade com esse nome")
+      }
+      if (errors.length) {
+          this.$swal({
+          text: errors.join(" "),
           icon: "error",
           timer: 2000,
           showConfirmButton: false
@@ -116,7 +122,7 @@ export default {
           hourEnd: this.form.hourEnd,
           dateStart: this.form.dateStart,
           durationDays: this.form.durationDays,
-          photo: this.formphoto
+          photo: this.form.photo
         };
         this.$store.commit("ADD_ACTIVITY", newActivity);
         this.form.name = "";

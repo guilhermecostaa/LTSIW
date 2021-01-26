@@ -19,13 +19,16 @@
           <Card
             v-for="activityId in getUserActivitiesById(parseInt($route.params.id))"
             :key="'activityUser' + activityId"
+            type="studentPage"
             :activity="getActivityById(activityId)"
           ></Card>
         </b-row>
       </div>
     </div>
     <h2>Notas:</h2>
-    <span v-if="getUserGradesByIdStudent.length == 0">Este aluno ainda não tem notas</span>
+    <span
+      v-if="getUserGradesByIdStudent(parseInt($route.params.id)).length == 0"
+    >Este aluno ainda não tem notas</span>
     <div v-else>
       <DataTable
         :items="getUserGradesByIdStudent($route.params.id).map(grade => {return {uc: getUcById(grade.idUc).name, year: getUcYearById(grade.idUc), semester: getUcSemesterById(grade.idUc), grade: grade.grade}})"
@@ -34,16 +37,9 @@
       ></DataTable>
     </div>
     <h2>Media:</h2>
-    <table>
-      <tr>
-        <th>Year</th>
-        <th>Average</th>
-      </tr>
-      <tr :key="'Average' + year" v-for="year in 3">
-        <td>{{ year }}</td>
-        <td>{{ getStudentAveragePerYear($route.params.id, year + 1) }}</td>
-      </tr>
-    </table>
+    <div>
+      <b-table striped hover :items="getAverage"></b-table>
+    </div>
   </div>
 </template>
 
@@ -56,23 +52,52 @@ export default {
   name: "Students",
   components: { DataTable, Card },
   data() {
-    return {};
+    return {
+      average: []
+    };
   },
   created() {
-    console.log(this.getStudentAveragePerYear(2, 2));
+    this.average = this.getStudentAverage(this.$route.params.id);
   },
   methods: {
-    getStudentAveragePerYear(idStudent, year){
-      let sum = 0;
-      let grades = 0;
-      for(let i = 0; i< this.getGrades.length; i++) {
-        const grade = this.getGrades[i]
-        if (this.getUcById(grade.id).year === year && grade.idStudent === idStudent) {
-          sum += grade.grade
-          grades++
+    getStudentAverage(idStudent) {
+      const studentGradesList = this.getGrades
+        .filter(grade => grade.idStudent == idStudent)
+        .map(grade => {
+          const uc = this.getUcById(grade.idUc);
+          return {
+            year: uc.year,
+            grade: grade.grade
+          };
+        });
+      const average = [
+        {
+          total: 0,
+          quantity: 0
+        },
+        {
+          total: 0,
+          quantity: 0
+        },
+        {
+          total: 0,
+          quantity: 0
+        },
+        {
+          total: 0,
+          quantity: 0
         }
+      ];
+      for (let i = 0; i < studentGradesList.length; i++) {
+        const grade = studentGradesList[i];
+        average[grade.year - 1].total += grade.grade;
+        average[grade.year - 1].quantity++;
+        average[3].total += grade.grade;
+        average[3].quantity++
       }
-        return sum / grades
+      return average.map(year =>
+        isNaN(year.total / year.quantity) ? 0 : year.total / year.quantity
+      );
     }
   },
   computed: {
@@ -85,7 +110,15 @@ export default {
       "getUserActivitiesById",
       "getActivityById",
       "getGrades"
-    ])
+    ]),
+    getAverage() {
+      return [
+        { year: 1, average: this.average[0] },
+        { year: 2, average: this.average[1] },
+        { year: 3, average: this.average[2] },
+        { year: "Final", average: this.average[3].toFixed(1) }
+      ];
+    }
   }
 };
 </script>

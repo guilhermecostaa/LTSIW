@@ -1,26 +1,28 @@
 <template>
-  <b-col lg="3" md="4" sm="6" col="12">
-    <b-card
-      :title="activity.name"
-      :img-src="activity.photo"
-      style="max-width: 20rem;"
-      class="mb-2"
-    >
+  <b-col lg="3" md="4" sm="6">
+    <b-card :title="activity.name" :img-src="activity.photo" class="mb-2">
       <b-card-text>{{ getDescription(activity.description)}}</b-card-text>
-
-      <b-button href="#" variant="primary" @click="signInActivity(activity.id)">Inscrever-me</b-button>
+        <b-button
+          class="mr-3"
+          v-if="type != 'studentPage'"
+          href="#"
+          variant="primary"
+          @click="signInActivity(activity.id)"
+          :disabled="getUserActivitiesById(getLoggedUserId).find(activityId => activityId == activity.id) ? true : false"
+        >{{getUserActivitiesById(getLoggedUserId).find(activityId => activityId == activity.id) ? 'Já está inscrito' : 'Inscrever'}}</b-button>
+        <b-button v-if="type != 'studentPage'" href="#" variant="primary" @click="activityPage(activity.id)">Ver</b-button>
     </b-card>
   </b-col>
 </template>
 
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  props: ["activity"],
+  props: ["activity", "type"],
   data() {
     return {};
   },
-  computed: {},
   methods: {
     signInActivity(id) {
       this.$swal({
@@ -44,7 +46,20 @@ export default {
         const spacePosition = desc.indexOf(" ", 90);
         return `${desc.substr(0, spacePosition)}...`;
       }
+    },
+    activityPage() {
+      this.$router.push({
+        name: "atividade",
+        params: { id: this.activity.id }
+      });
     }
+  },
+  computed: {
+    ...mapGetters(["getUserActivitiesById", "getLoggedUserId"])
   }
 };
 </script>
+
+<style>
+
+</style>

@@ -10,6 +10,7 @@ import BackofficeUcs from "../views/Backoffice/BackofficeUcs.vue";
 import BackofficeNotas from "../views/Backoffice/BackofficeNotas.vue";
 import BackofficeFormula from "../views/Backoffice/BackofficeFormula.vue";
 import Atividades from "../views/Atividades.vue";
+import Atividade from "../views/Atividade.vue";
 import Store from "../store";
 
 Vue.use(VueRouter);
@@ -37,7 +38,15 @@ const routes = [
     }
   },
   {
-    path: "/atividades",
+    path: "/activities/:id",
+    name: "atividade",
+    component: Atividade,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/activities",
     name: "atividades",
     component: Atividades,
     meta: {
